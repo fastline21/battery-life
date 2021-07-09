@@ -1,7 +1,6 @@
 import psutil
 from win10toast import ToastNotifier
 import chime
-import time
 
 chime.theme("material")
 show_notification = False

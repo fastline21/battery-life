@@ -5,6 +5,7 @@ import time
 
 chime.theme("material")
 show_notification = False
+battery_life_percent = 0
 
 
 def batteryNotification(message):
@@ -13,17 +14,21 @@ def batteryNotification(message):
 
 
 def checkBatteryPercent(battery):
-    if battery.percent == 100:
+    if battery.percent == 100 and battery.power_plugged:
         batteryNotification("Full Battery")
-    elif battery.percent == 10:
+    elif battery.percent <= 10 and battery.percent > 5 and not battery.power_plugged:
         batteryNotification("Low Battery")
-    elif battery.percent == 5:
+    elif battery.percent <= 5 and battery.percent > 1 and not battery.power_plugged:
         batteryNotification("Critical Battery")
 
 
 def getBatteryLife():
-    global show_notification
+    global show_notification, battery_life_percent
     battery = psutil.sensors_battery()
+
+    if (battery_life_percent != battery.percent):
+        battery_life_percent = battery.percent
+        print(battery.percent)
 
     if battery.power_plugged:
         if show_notification == False:
@@ -36,8 +41,7 @@ def getBatteryLife():
 
 
 chime.success()
-print("Battery Life starting...")
+batteryNotification("App starting...")
 
 while True:
     getBatteryLife()
-    time.sleep(10)

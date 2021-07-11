@@ -15,6 +15,8 @@ def batteryNotification(message):
 def checkBatteryPercent(battery):
     if battery.percent == 100 and battery.power_plugged:
         batteryNotification("Full Battery")
+    elif battery.percent <= 20 and battery.percent > 10 and not battery.power_plugged:
+        batteryNotification("Battery Saver On")
     elif battery.percent <= 10 and battery.percent > 5 and not battery.power_plugged:
         batteryNotification("Low Battery")
     elif battery.percent <= 5 and battery.percent > 1 and not battery.power_plugged:
@@ -27,7 +29,6 @@ def getBatteryLife():
 
     if (battery_life_percent != battery.percent):
         battery_life_percent = battery.percent
-        print(battery.percent)
 
     if battery.power_plugged:
         if show_notification == False:
@@ -40,6 +41,7 @@ def getBatteryLife():
 
 
 chime.success()
+print("Battery Life App starting...")
 batteryNotification("App starting...")
 
 while True:

@@ -8,25 +8,18 @@ chime.theme("material")
 engine = pyttsx3.init()
 voices = engine.getProperty("voices")
 engine.setProperty("voice", voices[1].id)
+engine.setProperty("rate", 150)
 
 # Default value
 show_notification = False
 battery_life_percent = 0
 
 
-def batteryNotification(message, type=""):
+def batteryNotification(message):
     engine.say(message)
     engine.runAndWait()
+    chime.success()
     print(message)
-
-    if type == "success":
-        chime.success()
-    elif type == "warning":
-        chime.warning()
-    elif type == "error":
-        chime.error()
-    else:
-        chime.info()
 
     toaster = ToastNotifier()
     toaster.show_toast("Battery Life", message, duration=10)
@@ -40,13 +33,13 @@ def secs2hours(secs):
 
 def checkBatteryPercent(battery):
     if battery.percent == 100 and battery.power_plugged:
-        batteryNotification("Full Battery", "success")
+        batteryNotification("Full Battery")
     elif battery.percent <= 20 and battery.percent > 10 and not battery.power_plugged:
-        batteryNotification("Battery Saver On", "warning")
+        batteryNotification("Battery Saver On")
     elif battery.percent <= 10 and battery.percent > 5 and not battery.power_plugged:
-        batteryNotification("Low Battery", "error")
+        batteryNotification("Low Battery")
     elif battery.percent <= 5 and battery.percent > 1 and not battery.power_plugged:
-        batteryNotification("Critical Battery", "error")
+        batteryNotification("Critical Battery")
 
 
 def getBatteryLife():
@@ -60,10 +53,12 @@ def getBatteryLife():
 
     if battery.power_plugged:
         if show_notification == False:
-            batteryNotification("Charging Laptop", "success")
+            batteryNotification("Charging Laptop")
             show_notification = True
     else:
-        show_notification = False
+        if show_notification == True:
+            batteryNotification("Discharging Laptop")
+            show_notification = False
 
     checkBatteryPercent(battery)
 

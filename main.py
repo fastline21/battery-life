@@ -1,14 +1,24 @@
 import psutil
 from win10toast import ToastNotifier
 import chime
+import pyttsx3
 
+# Config settings
 chime.theme("material")
+engine = pyttsx3.init()
+voices = engine.getProperty("voices")
+engine.setProperty("voice", voices[1].id)
+
+# Default value
 show_notification = False
 battery_life_percent = 0
 
 
 def batteryNotification(message, type=""):
+    engine.say(message)
+    engine.runAndWait()
     print(message)
+
     if type == "success":
         chime.success()
     elif type == "warning":
@@ -58,6 +68,7 @@ def getBatteryLife():
     checkBatteryPercent(battery)
 
 
+# Startup notification
 batteryNotification("App starting...")
 
 while True:

@@ -2,6 +2,7 @@ import psutil
 from win10toast import ToastNotifier
 import chime
 import pyttsx3
+import os
 
 # Config settings
 chime.theme("material")
@@ -13,6 +14,7 @@ engine.setProperty("rate", 150)
 # Default value
 show_notification = False
 battery_life_percent = 0
+warning_battery = 0
 
 
 def batteryNotification(message):
@@ -32,11 +34,17 @@ def secs2hours(secs):
 
 
 def checkBatteryPercent(battery):
+    global warning_battery
     if battery.percent == 100 and battery.power_plugged:
         batteryNotification("Full Battery")
     elif battery.percent <= 20 and battery.percent > 10 and not battery.power_plugged:
         batteryNotification("Battery Saver On")
     elif battery.percent <= 10 and battery.percent > 5 and not battery.power_plugged:
+        if warning_battery >= 5:
+            os.system("shutdown /h")
+            quit()
+
+        warning_battery += 1
         batteryNotification("Low Battery")
     elif battery.percent <= 5 and battery.percent > 1 and not battery.power_plugged:
         batteryNotification("Critical Battery")

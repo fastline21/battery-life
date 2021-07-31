@@ -133,3 +133,6 @@ dmypy.json
 
 # Bat file
 *.bat
+
+# Config file
+config.ini

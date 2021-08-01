@@ -28,7 +28,9 @@ for index, value in enumerate(voices):
 current_theme = chime.theme()
 
 while True:
-    if not os.path.exists(config_file):
+    config.read(config_file)
+
+    if not config.sections():
         print("Creating config file")
 
         # Head section
@@ -72,7 +74,6 @@ while True:
         continue
     else:
         print("Loading config file")
-        config.read(config_file)
         current_theme = config.get("Notification", "theme")
         current_voice = config.get("Sound", "voice")
         print("Success load config file")

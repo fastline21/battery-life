@@ -105,6 +105,8 @@ def check_battery_percent(battery):
 
     if battery.percent == 100 and battery.power_plugged:
         battery_notification("Full Battery")
+    elif battery.percent == 80 and battery.power_plugged:
+        battery_notification("Battery Sufficient Charge")
     elif battery.percent <= 20 and battery.percent > 10 and not battery.power_plugged:
         battery_notification("Battery Saver On")
     elif battery.percent <= 10 and battery.percent > 5 and not battery.power_plugged:

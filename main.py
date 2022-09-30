@@ -1,9 +1,12 @@
 import psutil
-from win10toast import ToastNotifier
+# TODO: Unable to use win10toast on Linux environment
+# from win10toast import ToastNotifier
 import chime
 import pyttsx3
 import os
 from configparser import ConfigParser
+
+from pushnotification import PushNotification
 
 # Config settings
 engine = pyttsx3.init()
@@ -48,7 +51,7 @@ while True:
 
         while True:
             try:
-                voice = input(f"Choose voice 0 = Male, 1 = Femaile: ")
+                voice = input(f"Choose voice 0 = Male, 1 = Female: ")
                 if not voice:
                     break
                 elif int(voice) > 1 or int(voice) < 0:
@@ -90,8 +93,10 @@ def battery_notification(message, is_toast=True):
 
     if is_toast == True:
         chime.success()
-        toaster = ToastNotifier()
-        toaster.show_toast("Battery Life", message, duration=10)
+        push_notification = PushNotification("Battery Life", message)
+        push_notification.push()
+        # toaster = ToastNotifier()
+        # toaster.show_toast("Battery Life", message, duration=10)
 
 
 def secs2hours(secs):

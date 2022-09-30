@@ -4,9 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-psutil = "*"
-win10toast = "*"
 chime = "*"
+psutil = "*"
 pyttsx3 = "*"
 
 [dev-packages]

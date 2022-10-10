@@ -48,7 +48,7 @@ while True:
 
         while True:
             try:
-                voice = input(f"Choose voice 0 = Male, 1 = Femaile: ")
+                voice = input(f"Choose voice 0 = Male, 1 = Female: ")
                 if not voice:
                     break
                 elif int(voice) > 1 or int(voice) < 0:
